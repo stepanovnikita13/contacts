@@ -1,0 +1,43 @@
+{
+	"auth": {
+		"login": null,
+		"isAuth": false
+	},
+	"contacts": [
+		{
+			"id": 0,
+			"firstName": "Alexander",
+			"lastName": "Ivanov",
+			"phoneNumber": "+79881234567",
+			"sparePhoneNumber": "+79281234567"
+		},
+		{
+			"id": 0,
+			"firstName": "Michael",
+			"lastName": "Shumaher",
+			"phoneNumber": "+79887654321",
+			"sparePhoneNumber": "+79287654321"
+		},
+		{
+			"id": 0,
+			"firstName": "Ivan",
+			"lastName": "Urgant",
+			"phoneNumber": "+79610987654",
+			"sparePhoneNumber": null
+		},
+		{
+			"id": 0,
+			"firstName": "James",
+			"lastName": "Hetfield",
+			"phoneNumber": "+66666666666",
+			"sparePhoneNumber": null
+		},
+		{
+			"id": 0,
+			"firstName": "John",
+			"lastName": "Wick",
+			"phoneNumber": "+79895553535",
+			"sparePhoneNumber": null
+		}
+	]
+}
