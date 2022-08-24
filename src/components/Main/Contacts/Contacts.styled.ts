@@ -1,9 +1,14 @@
 import { createUseStyles } from 'react-jss'
+import { device } from '../../../styles/device'
 
 const useContactsStyles = createUseStyles({
 	container: {
-		position: 'absolute',
-		backgroundColor: '#fff'
+
+	},
+	navigation: {
+		display: 'flex',
+		alignItems: 'center',
+		height: 40
 	},
 	list: {
 		display: 'flex',

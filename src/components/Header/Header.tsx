@@ -1,12 +1,15 @@
 import Logo from "../common/Logo/Logo"
 import useHeaderStyles from "./Header.styled"
-import LogoutIcon from '@mui/icons-material/Logout';
-import { IconButton, Tooltip } from "@mui/material";
+import { useSelector } from "../../hooks/redux"
+import { Typography } from "@mui/material"
+import LogoutButton from "../common/Buttons/LogoutButton"
+import LoginButton from "../common/Buttons/LoginButton"
 
 export interface IHeaderProps {
 }
 
 export default function Header(props: IHeaderProps) {
+	const isAuth = useSelector(state => state.auth.isAuth)
 	const classes = useHeaderStyles()
 	const containerClassnames = [
 		classes.container,
@@ -19,12 +22,11 @@ export default function Header(props: IHeaderProps) {
 				<Logo />
 			</div>
 			<div className={classes.auth}>
-				<div>Logout</div>
-				<Tooltip title='logout'>
-					<IconButton>
-						<LogoutIcon />
-					</IconButton>
-				</Tooltip>
+				<Typography>{isAuth ? 'Logout' : 'Login'}</Typography>
+				{isAuth
+					? <LogoutButton onClick={() => { }} />
+					: <LoginButton onClick={() => { }} />
+				}
 			</div>
 		</header>
 	)

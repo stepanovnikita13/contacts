@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../store"
 
 const initialState = {
-	isAuth: false
+	isAuth: true
 }
 
 type InitialState = typeof initialState
@@ -16,7 +16,5 @@ export const authSlice = createSlice({
 		}
 	}
 })
-
-export const selectIsAuth = (state: RootState) => state.auth.isAuth
 
 export default authSlice.reducer

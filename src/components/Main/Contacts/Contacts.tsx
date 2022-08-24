@@ -1,45 +1,67 @@
+import { List, Typography } from '@mui/material'
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import Contact from './Contact/Contact'
 import useContactsStyles from './Contacts.styled'
+import { useSelector } from '../../../hooks/redux'
+import CancelButton from '../../common/Buttons/CancelButton'
+import { IContactsProps } from './ContactsContainer'
+import ContactsListItem from './Contact/ContactListItem'
 
-export interface IContactsProps {
-}
+const Contacts: React.FC<IContactsProps> = (props) => {
+	const { hideContacts, isMobile } = props
+	const contacts = useSelector(state => state.contacts.contacts)
 
-const isAuth = true
+	const [isCheckMode, setIsCheckMode] = useState(false)
+	const [checkedItems, setCheckedItems] = useState<Array<number>>([])
 
-export default function Contacts(props: IContactsProps) {
-	const [isContactFocused, setIsContactFocused] = useState(false)
-	const [hidden, setHidden] = useState(false)
 	const classes = useContactsStyles()
-	const containerClassNames = [
-		classes.container,
-		'container'
+	const navigationClassNames = [
+		classes.navigation,
+		isMobile && 'container'
 	].join(' ')
 
-	if (!isAuth) return <Navigate to={'/login'} replace={true} />
+	const handlerToggle = (value: number) => {
+		const newCheckedItems = [...checkedItems]
+		const currentIndex = checkedItems.indexOf(value);
+		if (currentIndex === -1) {
+			newCheckedItems.push(value)
+		} else {
+			newCheckedItems.splice(currentIndex, 1)
+		}
+		setCheckedItems(newCheckedItems)
+	}
+
+	function handlerCancelClick() {
+		setIsCheckMode(false)
+		setCheckedItems([])
+	}
+
 	return (
-		<div className={containerClassNames}>
-			<div>
-				search and add contact
+		<div className={classes.container}>
+			<div className={navigationClassNames} >
+				{isCheckMode || checkedItems.length > 0
+					? <Typography>
+						<CancelButton onClick={() => handlerCancelClick()} />
+						{`Selected ${checkedItems.length} contact`}
+					</Typography>
+					: <Typography>Search and add contact</Typography>
+				}
 			</div>
-			<div className={classes.list}>
-				<Contact
-					isContactFocused={isContactFocused}
-					setIsContactFocused={setIsContactFocused}
-					setHidden={setHidden}
-				/>
-				<Contact
-					isContactFocused={isContactFocused}
-					setIsContactFocused={setIsContactFocused}
-					setHidden={setHidden}
-				/>
-				<Contact
-					isContactFocused={isContactFocused}
-					setIsContactFocused={setIsContactFocused}
-					setHidden={setHidden}
-				/>
-			</div>
-		</div>
+			<List disablePadding>
+				{contacts.map((contact) => {
+					return <ContactsListItem
+						key={contact.id}
+						contact={contact}
+						onCheckboxChange={handlerToggle}
+						checked={checkedItems.indexOf(contact.id) !== -1}
+						isCheckMode={isCheckMode}
+						hideContacts={hideContacts}
+						runCheckMode={() => setIsCheckMode(true)}
+					/>
+				})}
+
+			</List>
+		</div >
 	)
 }
+
+export default Contacts

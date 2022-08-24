@@ -17,6 +17,3 @@ export function stringToColor(string: string) {
 
 	return color;
 }
-export default function stringAvatar(name: string) {
-	return `${name.split(' ').map(w => w.charAt(0)).join('')}`
-}

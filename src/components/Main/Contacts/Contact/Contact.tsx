@@ -1,66 +1,42 @@
-import { Avatar, Checkbox, Typography } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
-import { useLongPress } from "../../../../hooks/hooks";
-import stringAvatar, { stringToColor } from "../../../../utils/avatar";
+import { Typography } from "@mui/material";
+import React from "react";
+import CustomAvatar from "../../../common/Avatar/Avatar";
 import useContactNameStyles from "./Contact.styled";
 
 export interface IContactProps {
-	isContactFocused: boolean
-	setIsContactFocused: Dispatch<SetStateAction<boolean>>
-	setHidden: Dispatch<SetStateAction<boolean>>
+	firstName: string
+	lastName: string
+	photo: string
+	description: string
 }
 
-const Contact: React.FC<IContactProps> = (props) => {
-	const { isContactFocused, setIsContactFocused } = props
-	const [checked, setChecked] = useState(false)
+const Contact: React.FC<IContactProps> = React.memo((props) => {
+	const { firstName, lastName, photo, description } = props
+	const fullName: string = firstName + ' ' + lastName
 	const classes = useContactNameStyles()
-	const longToushEvents = useLongPress(
-		{
-			onLongPress: handlerLongPress,
-			onClick: () => console.log('click')
-		},
-		{
-			delay: 2000
-		}
-	)
-	function handlerLongPress() {
-		setIsContactFocused(true)
-		setChecked(true)
-	}
-	const handlerCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setChecked(value => !value)
-	}
 
 	return (
-		<div className={classes.container} {...longToushEvents}>
-			{isContactFocused && <div className={classes.check}>
-				<Checkbox
-					checked={checked}
-					onChange={handlerCheckboxClick}
-					value='contactId'
-				/>
-			</div>}
-			<Avatar
-				alt='Name'
-				children={stringAvatar('Name Lastname')}
-				src='url'
+		<div className={classes.container}>
+			<CustomAvatar
+				alt={fullName}
+				name={fullName}
+				src={photo}
 				sx={{
+					fontSize: '1.4em',
 					width: 50,
-					height: 50,
-					bgcolor: stringToColor('Name Lastname'),
-					fontSize: '1.4em'
+					height: 50
 				}}
 			/>
 			<div className={classes.textBlock}>
 				<Typography fontWeight='bold'>
-					Name Lastname
+					{`${firstName} ${lastName}`}
 				</Typography>
 				<Typography color={'text.secondary'} fontSize='.9em'>
-					Description of contact
+					{description}
 				</Typography>
 			</div>
 		</div>
 	)
-}
+})
 
 export default Contact

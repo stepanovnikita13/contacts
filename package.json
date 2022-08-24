@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@redux-devtools/core": "^3.13.1",
     "json-server": "^0.17.0"
   }
 }

@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit"
 import auth from './slices/authSlice'
+import contacts from './slices/contactsSlice'
 
 export const store = configureStore({
-	reducer: { auth }
+	reducer: { auth, contacts }
 })
 
 export type RootState = ReturnType<typeof store.getState>
