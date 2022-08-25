@@ -39,15 +39,17 @@ export default function Main(props: IMainProps) {
 		isMobile && setHidden(true)
 	}, [])
 	return (
-		<main className={mainClassNames}>
-			{isMobile && <div className={classes.button}>
-				<BackButton onClick={() => setHidden(false)} />
-			</div>
-			}
-			<div className={classes.contactsBlock}>
-				<ContactsContainer hideContacts={hideContacts} isMobile={isMobile} />
-			</div>
-			<ContactCard isMobile={isMobile} />
-		</main>
+		<div className={classes.wrapper}>
+			<main className={mainClassNames}>
+				{isMobile && <div className={classes.button}>
+					<BackButton onClick={() => setHidden(false)} />
+				</div>
+				}
+				<div className={classes.contactsBlock}>
+					<ContactsContainer hideContacts={hideContacts} isMobile={isMobile} />
+				</div>
+				<ContactCard isMobile={isMobile} />
+			</main>
+		</div>
 	)
 }

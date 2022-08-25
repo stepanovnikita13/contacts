@@ -1,10 +1,11 @@
-import { Checkbox, ListItem, ListItemButton, SelectChangeEvent, useMediaQuery } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react';
+import { Checkbox, ListItem, ListItemButton, useMediaQuery } from '@mui/material';
+import React from 'react';
 import { useLongPress } from '../../../../hooks/hooks';
 import { useDispatch, useSelector } from '../../../../hooks/redux';
 import { Contact as PContact, setCurrentContact } from '../../../../redux/slices/contactsSlice';
 import { device } from '../../../../styles/device';
 import Contact from './Contact';
+import useListItemStyles from './ListItem.styled';
 
 export interface IContactsListItemProps {
 	contact: PContact
@@ -23,11 +24,12 @@ const ContactsListItem: React.FC<IContactsListItemProps> = (props) => {
 	const isMobile = !useMediaQuery(device.tabletS)
 	const dispatch = useDispatch()
 
-	const longToushEvents = useLongPress({
+	const longTouchEvents = useLongPress({
 		onLongPress: isMobile ? handlerLongPress : () => { },
 		onClick: handlerClick
 	}, { delay: 500 })
-	const listItemButtonProps = !isCheckMode ? longToushEvents : null
+
+	const classnames = useListItemStyles()
 
 	function handlerLongPress() {
 		runCheckMode()
@@ -44,20 +46,21 @@ const ContactsListItem: React.FC<IContactsListItemProps> = (props) => {
 			disablePadding
 			selected={!isMobile && id === selectedContact}
 		>
-			<ListItemButton  {...listItemButtonProps} >
-				{
-					(isCheckMode || !isMobile) && <div>
-						<Checkbox
-							size="small"
-							edge="start"
-							checked={checked}
-							onClick={() => onCheckboxChange(id)}
-							value='id'
-						/>
-					</div>
-				}
+			<ListItemButton  {...longTouchEvents} sx={{ paddingLeft: isCheckMode ? 5 : 1 }} >
 				<Contact {...contactProps} />
 			</ListItemButton>
+			{
+				(isCheckMode) &&
+				<div className={classnames.checkbox}>
+					<Checkbox
+						size="small"
+						edge="start"
+						checked={checked}
+						onChange={() => onCheckboxChange(id)}
+						value='id'
+					/>
+				</div>
+			}
 		</ListItem>
 	)
 }

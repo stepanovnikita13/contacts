@@ -1,9 +1,10 @@
-import { Typography } from "@mui/material"
+import { colors, Typography } from "@mui/material"
 import { useSelector } from "../../../hooks/redux"
-import { Contact, selectFullName } from "../../../redux/slices/contactsSlice"
+import { Contact } from "../../../redux/slices/contactsSlice"
 import CustomAvatar from "../../common/Avatar/Avatar"
 import useContactCardStyles from "./ContactCard.styled"
 import PhoneIcon from '@mui/icons-material/Phone'
+import { AsYouType } from 'libphonenumber-js'
 
 export interface IContactCardProps {
 	isMobile: boolean
@@ -13,7 +14,7 @@ const ContactCard: React.FC<IContactCardProps> = (props) => {
 	const { isMobile } = props
 	const currentId = useSelector(state => state.contacts.currentContact)
 	const contact = useSelector(state => state.contacts.contacts.find(item => item.id === currentId)) as Contact
-	const { firstName, lastName, description, phoneNumber, photo } = contact
+	const { firstName, lastName, description, phoneNumbers, photo } = contact
 	const fullName = `${firstName} ${lastName}`
 
 	const classes = useContactCardStyles()
@@ -43,8 +44,22 @@ const ContactCard: React.FC<IContactCardProps> = (props) => {
 					<Typography color={'text.secondary'} >{description}</Typography>
 				</div>
 			</div>
-			<div><PhoneIcon sx={{ color: "#fdc60d" }} />{phoneNumber}</div>
+			<div className={classes.contact}>
+				{Object.entries(phoneNumbers).map((item, index) => {
+					const number = item[1]
+					const cathegory = item[0].toUpperCase()
+					return (
+						<div key={index}>
+							<PhoneIcon sx={{ color: "#fdc60d" }} />
+							<div>
+								<Typography fontSize={'1em'}>{new AsYouType().input(number)}</Typography>
+								<Typography lineHeight={1.5} color={colors.grey[500]} fontSize={'.65em'} fontWeight={'bold'}>{cathegory}</Typography>
+							</div>
+						</div>
+					)
+				})}
 
+			</div>
 		</div>
 	)
 }

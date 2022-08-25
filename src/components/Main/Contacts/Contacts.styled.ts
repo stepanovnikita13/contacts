@@ -8,13 +8,16 @@ const useContactsStyles = createUseStyles({
 	navigation: {
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'space-between',
 		height: 40
 	},
-	list: {
+	selectedCounter: {
 		display: 'flex',
-		flexFlow: 'column nowrap',
-		rowGap: 10
-	}
+		alignItems: 'center',
+	},
+	list: {
+		paddingTop: 10
+	},
 }, { name: 'contacts' })
 
 export default useContactsStyles

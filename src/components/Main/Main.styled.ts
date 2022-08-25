@@ -3,11 +3,13 @@ import { device } from '../../styles/device'
 import { StyleProps } from './Main'
 
 const useMainStyles = createUseStyles({
+	wrapper: {
+		borderTop: [1, 'solid', 'lightgray'],
+	},
 	main: {
 		display: 'flex',
 		flexFlow: 'row nowrap',
 		paddingTop: 10,
-		borderTop: [1, 'solid', 'lightgray'],
 		[`@media ${device.tabletS}`]: {
 			paddingTop: 15
 		}
