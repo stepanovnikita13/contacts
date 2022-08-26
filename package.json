@@ -1,57 +1,69 @@
 {
-  "name": "takeoff",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.10.1",
-    "@reduxjs/toolkit": "^1.8.5",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.52",
-    "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
-    "libphonenumber-js": "^1.10.13",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-jss": "^10.9.2",
-    "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.7.4",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@redux-devtools/core": "^3.13.1",
-    "json-server": "^0.17.0"
-  }
+	"name": "takeoff",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"@emotion/react": "^11.10.0",
+		"@emotion/styled": "^11.10.0",
+		"@fontsource/roboto": "^4.5.8",
+		"@mui/icons-material": "^5.8.4",
+		"@mui/material": "^5.10.1",
+		"@reduxjs/toolkit": "^1.8.5",
+		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/react": "^13.3.0",
+		"@testing-library/user-event": "^13.5.0",
+		"@types/jest": "^27.5.2",
+		"@types/json-server": "^0.14.4",
+		"@types/node": "^16.11.52",
+		"@types/react": "^18.0.17",
+		"@types/react-dom": "^18.0.6",
+		"axios": "^0.27.2",
+		"body-parser": "^1.20.0",
+		"fs-extra": "^10.1.0",
+		"json-server-auth": "^2.1.0",
+		"libphonenumber-js": "^1.10.13",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.34.2",
+		"react-jss": "^10.9.2",
+		"react-redux": "^8.0.2",
+		"react-router-dom": "^6.3.0",
+		"react-scripts": "5.0.1",
+		"ts-node": "^10.9.1",
+		"typescript": "^4.7.4",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"start:api": "ts-node-esm server/server.ts"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@redux-devtools/core": "^3.13.1",
+		"@types/fs-extra": "^9.0.13",
+		"@types/jsonwebtoken": "^8.5.9",
+		"json-server": "^0.17.0",
+		"jsonwebtoken": "^8.5.1"
+	}
 }

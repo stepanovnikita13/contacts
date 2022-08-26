@@ -2,17 +2,24 @@ import { createUseStyles } from 'react-jss'
 import { device } from '../../styles/device'
 import { StyleProps } from './Main'
 
+function getPaddingTop() {
+	return document.getElementsByTagName('header').item(0)?.offsetHeight
+}
+
 const useMainStyles = createUseStyles({
 	wrapper: {
-		borderTop: [1, 'solid', 'lightgray'],
+		paddingTop: 50,
+		[`@media ${device.tabletS}`]: {
+			paddingTop: 60
+		}
+	},
+	container: {
+
 	},
 	main: {
 		display: 'flex',
 		flexFlow: 'row nowrap',
-		paddingTop: 10,
-		[`@media ${device.tabletS}`]: {
-			paddingTop: 15
-		}
+		borderTop: [1, 'solid', 'lightgray'],
 	},
 	button: {
 		position: 'fixed',
@@ -28,10 +35,10 @@ const useMainStyles = createUseStyles({
 		zIndex: 10,
 		[`@media ${device.tabletS}`]: {
 			position: 'static',
-			flex: [0, 1, '320px']
+			flex: [0, 1, '360px']
 		},
 		[`@media ${device.laptopS}`]: {
-			flex: '0 1 400px'
+			flex: '0 1 440px'
 		},
 	}),
 

@@ -1,10 +1,11 @@
 import { colors, Typography } from "@mui/material"
 import { useSelector } from "../../../hooks/redux"
-import { Contact } from "../../../redux/slices/contactsSlice"
 import CustomAvatar from "../../common/Avatar/Avatar"
 import useContactCardStyles from "./ContactCard.styled"
 import PhoneIcon from '@mui/icons-material/Phone'
 import { AsYouType } from 'libphonenumber-js'
+import CardNavigation from "../../common/Navigation/CardNavigation/CardNavigation"
+import { IContact } from "../../../types/types"
 
 export interface IContactCardProps {
 	isMobile: boolean
@@ -13,7 +14,8 @@ export interface IContactCardProps {
 const ContactCard: React.FC<IContactCardProps> = (props) => {
 	const { isMobile } = props
 	const currentId = useSelector(state => state.contacts.currentContact)
-	const contact = useSelector(state => state.contacts.contacts.find(item => item.id === currentId)) as Contact
+	const contact = useSelector(state => state.contacts.contacts.find(item => item.id === currentId)) as IContact
+
 	const { firstName, lastName, description, phoneNumbers, photo } = contact
 	const fullName = `${firstName} ${lastName}`
 
@@ -25,6 +27,7 @@ const ContactCard: React.FC<IContactCardProps> = (props) => {
 
 	return (
 		<div className={cardClassNames}>
+			<CardNavigation fullName={fullName} />
 			<div className={classes.header}>
 				<CustomAvatar
 					alt={fullName}

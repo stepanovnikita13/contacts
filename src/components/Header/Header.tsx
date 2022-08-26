@@ -1,15 +1,19 @@
 import Logo from "../common/Logo/Logo"
 import useHeaderStyles from "./Header.styled"
-import { useSelector } from "../../hooks/redux"
-import { Typography } from "@mui/material"
+import { useDispatch, useSelector } from "../../hooks/redux"
+import { Slide, Typography, useScrollTrigger } from "@mui/material"
 import LogoutButton from "../common/Buttons/LogoutButton"
 import LoginButton from "../common/Buttons/LoginButton"
+import { login, logout } from "../../redux/slices/authSlice"
 
 export interface IHeaderProps {
 }
 
 export default function Header(props: IHeaderProps) {
 	const isAuth = useSelector(state => state.auth.isAuth)
+	const dispatch = useDispatch()
+	const trigger = useScrollTrigger()
+
 	const classes = useHeaderStyles()
 	const containerClassnames = [
 		classes.container,
@@ -17,17 +21,17 @@ export default function Header(props: IHeaderProps) {
 	].join(' ')
 
 	return (
-		<header className={containerClassnames}>
-			<div>
-				<Logo />
+		<Slide appear={false} direction="down" in={!trigger}>
+			<div className={classes.wrapper}>
+				<header className={containerClassnames}>
+					<div>
+						<Logo />
+					</div>
+					<div className={classes.auth}>
+						{isAuth && <LogoutButton onClick={() => dispatch(logout())} />}
+					</div>
+				</header>
 			</div>
-			<div className={classes.auth}>
-				<Typography>{isAuth ? 'Logout' : 'Login'}</Typography>
-				{isAuth
-					? <LogoutButton onClick={() => { }} />
-					: <LoginButton onClick={() => { }} />
-				}
-			</div>
-		</header>
+		</Slide>
 	)
 }	

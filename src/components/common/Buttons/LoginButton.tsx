@@ -1,12 +1,9 @@
-import { IconButton, Tooltip } from "@mui/material"
+import { IconButton, IconButtonProps, Tooltip } from "@mui/material"
 import LoginIcon from '@mui/icons-material/Login'
 
-type LoginButtonProps = {
-	onClick: () => void
-}
-const LoginButton: React.FC<LoginButtonProps> = (props) => (
-	<Tooltip title='Logout'>
-		<IconButton onClick={props.onClick} aria-label='logout'>
+const LoginButton: React.FC<IconButtonProps> = (props) => (
+	<Tooltip title='Login'>
+		<IconButton onClick={props.onClick} aria-label='Login'>
 			<LoginIcon />
 		</IconButton>
 	</Tooltip>

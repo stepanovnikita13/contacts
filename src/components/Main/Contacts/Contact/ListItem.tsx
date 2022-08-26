@@ -2,13 +2,14 @@ import { Checkbox, ListItem, ListItemButton, useMediaQuery } from '@mui/material
 import React from 'react';
 import { useLongPress } from '../../../../hooks/hooks';
 import { useDispatch, useSelector } from '../../../../hooks/redux';
-import { Contact as PContact, setCurrentContact } from '../../../../redux/slices/contactsSlice';
+import { setCurrentContact } from '../../../../redux/slices/contactsSlice';
 import { device } from '../../../../styles/device';
+import { IContact } from '../../../../types/types';
 import Contact from './Contact';
 import useListItemStyles from './ListItem.styled';
 
 export interface IContactsListItemProps {
-	contact: PContact
+	contact: IContact
 	onCheckboxChange: (id: number) => void
 	hideContacts: () => void
 	runCheckMode: () => void

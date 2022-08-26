@@ -1,16 +1,21 @@
 import { List, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import useContactsStyles from './Contacts.styled'
-import { useSelector } from '../../../hooks/redux'
+import { useDispatch, useSelector } from '../../../hooks/redux'
 import CancelButton from '../../common/Buttons/CancelButton'
-import { IContactsProps } from './ContactsContainer'
 import ContactsListItem from './Contact/ListItem'
 import MoreMenu, { Field } from '../../common/Menu/MoreMenu'
+import { getContacts } from '../../../redux/slices/contactsSlice'
 
+export interface IContactsProps {
+	hideContacts: () => void
+	isMobile: boolean
+}
 
 const Contacts: React.FC<IContactsProps> = (props) => {
 	const { hideContacts, isMobile } = props
 	const contacts = useSelector(state => state.contacts.contacts)
+	const dispatch = useDispatch()
 
 	const [isCheckMode, setIsCheckMode] = useState(false)
 	const [checkedItems, setCheckedItems] = useState<Array<number>>([])
@@ -21,6 +26,9 @@ const Contacts: React.FC<IContactsProps> = (props) => {
 		isMobile && 'container'
 	].join(' ')
 
+	useEffect(() => {
+		dispatch(getContacts())
+	}, [])
 	useEffect(() => {
 		if (!isMobile) {
 			setIsCheckMode(true)
@@ -60,7 +68,7 @@ const Contacts: React.FC<IContactsProps> = (props) => {
 	return (
 		<div className={classes.container}>
 			<div className={navigationClassNames} >
-				{checkedItems.length > 0
+				{checkedItems.length > 0 || (isCheckMode && isMobile)
 					? <div className={classes.selectedCounter}>
 						<CancelButton onClick={() => handlerCancelClick()} />
 						<Typography>
@@ -70,9 +78,7 @@ const Contacts: React.FC<IContactsProps> = (props) => {
 					: <Typography>Search and add contact</Typography>
 
 				}
-				<MoreMenu
-					fields={mobileMenu}
-				/>
+				<MoreMenu fields={mobileMenu} />
 			</div>
 			<List className={classes.list} >
 				{contacts.map((contact) => {
