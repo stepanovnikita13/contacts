@@ -1,26 +1,24 @@
-import { Fade, Menu, MenuItem } from "@mui/material"
-import { useState } from "react";
+import { Fade, Menu } from "@mui/material"
+import { Children, cloneElement, isValidElement, ReactElement, ReactNode, useState } from "react";
 import MoreButton from "../Buttons/MoreButton"
 
-export type Field = {
-	[key: string]: () => void
-}
 export interface IMoreMenuProps {
-	fields: Array<Field>
+	children: ReactNode
 }
 
-const MoreMenu: React.FC<IMoreMenuProps> = ({ fields }) => {
+const MoreMenu: React.FC<IMoreMenuProps> = ({ children }) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
-	const handleClose = (fn: () => void) => {
-		setAnchorEl(null);
-	}
-	const handleClickItem = (fn: () => void) => {
+	const handleClose = () => {
 		setAnchorEl(null)
-		fn()
+
+	}
+	function handleClickChild(child: ReactElement) {
+		setAnchorEl(null)
+		child.props.onClick()
 	}
 	return (
 		<div>
@@ -37,12 +35,9 @@ const MoreMenu: React.FC<IMoreMenuProps> = ({ fields }) => {
 				onClose={handleClose}
 				TransitionComponent={Fade}
 			>
-				{fields.map((item, index) => {
-					const name = Object.entries(item)[0][0]
-					const fn = Object.entries(item)[0][1]
-					return (
-						<MenuItem key={index} onClick={() => handleClickItem(fn)}>{name}</MenuItem>
-					)
+				{Children.map<ReactNode, ReactNode>(children, child => {
+					if (isValidElement(child))
+						return cloneElement(child as ReactElement, { onClick: () => handleClickChild(child) })
 				})}
 			</Menu>
 		</div>

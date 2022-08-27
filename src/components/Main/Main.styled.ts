@@ -13,22 +13,26 @@ const useMainStyles = createUseStyles({
 			paddingTop: 60
 		}
 	},
-	container: {
-
+	border: {
+		borderTop: [1, 'solid', 'lightgray'],
 	},
 	main: {
 		display: 'flex',
 		flexFlow: 'row nowrap',
-		borderTop: [1, 'solid', 'lightgray'],
+		paddingTop: 10,
 	},
 	button: {
 		position: 'fixed',
-		zIndex: 5
+		zIndex: 5,
+		paddingTop: 5
 	},
 	contactsBlock: ({ hidden }: StyleProps) => ({
-		width: '100%',
 		position: 'absolute',
-		paddingTop: 10,
+		left: 0,
+		right: 0,
+		display: 'flex',
+		flexFlow: 'column nowrap',
+		height: 'calc(100vh - 50px)',
 		transform: hidden ? 'translateX(-100%)' : 'translateX(0)',
 		transition: 'transform .2s ease',
 		backgroundColor: '#fff',

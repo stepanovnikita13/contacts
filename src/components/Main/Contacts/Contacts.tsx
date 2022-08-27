@@ -1,11 +1,12 @@
-import { List, Typography } from '@mui/material'
+import { List, MenuItem, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import useContactsStyles from './Contacts.styled'
 import { useDispatch, useSelector } from '../../../hooks/redux'
-import CancelButton from '../../common/Buttons/CancelButton'
 import ContactsListItem from './Contact/ListItem'
-import MoreMenu, { Field } from '../../common/Menu/MoreMenu'
+import MoreMenu from '../../common/Menu/MoreMenu'
 import { getContacts } from '../../../redux/slices/contactsSlice'
+import SelectedCounter from '../../common/Navigation/ContactsNavigation/SelectedCounter.t/SelectedCounter'
+import Navigation from '../../common/Navigation/Navigation'
 
 export interface IContactsProps {
 	hideContacts: () => void
@@ -21,10 +22,6 @@ const Contacts: React.FC<IContactsProps> = (props) => {
 	const [checkedItems, setCheckedItems] = useState<Array<number>>([])
 
 	const classes = useContactsStyles()
-	const navigationClassNames = [
-		classes.navigation,
-		isMobile && 'container'
-	].join(' ')
 
 	useEffect(() => {
 		dispatch(getContacts())
@@ -55,46 +52,41 @@ const Contacts: React.FC<IContactsProps> = (props) => {
 		setCheckedItems(contacts.map(item => item.id))
 	}
 
-	const mobileMenu: Array<Field> = []
-	if (!isCheckMode) {
-		mobileMenu.push({ 'Select': () => setIsCheckMode(true) })
-	} else {
-		mobileMenu.push({ 'Select All': () => selectAll() })
-		mobileMenu.push({ 'Unselect All': () => setCheckedItems([]) })
-	}
-	if (checkedItems.length > 0) {
-		mobileMenu.push({ 'Delete': () => { } })
-	}
 	return (
-		<div className={classes.container}>
-			<div className={navigationClassNames} >
+		<>
+			<Navigation justifyContent='space-between'>
 				{checkedItems.length > 0 || (isCheckMode && isMobile)
-					? <div className={classes.selectedCounter}>
-						<CancelButton onClick={() => handlerCancelClick()} />
-						<Typography>
-							{`Selected ${checkedItems.length} contact`}
-						</Typography>
-					</div>
+					? <SelectedCounter onClose={handlerCancelClick} value={checkedItems.length} />
 					: <Typography>Search and add contact</Typography>
-
 				}
-				<MoreMenu fields={mobileMenu} />
-			</div>
-			<List className={classes.list} >
-				{contacts.map((contact) => {
-					return <ContactsListItem
-						key={contact.id}
-						contact={contact}
-						onCheckboxChange={handlerToggle}
-						checked={checkedItems.indexOf(contact.id) !== -1}
-						isCheckMode={isCheckMode}
-						hideContacts={hideContacts}
-						runCheckMode={() => setIsCheckMode(true)}
-					/>
-				})}
+				<MoreMenu>
+					{isMobile && !isCheckMode
+						? <MenuItem key={0} onClick={() => setIsCheckMode(true)}>Select</MenuItem>
+						: [
+							<MenuItem key={0} onClick={selectAll}>Select all</MenuItem>,
+							<MenuItem key={1} onClick={() => setCheckedItems([])}>Unselect All</MenuItem>
+						]
+					}
+					{checkedItems.length > 0 && <MenuItem onClick={() => { }}>Delete</MenuItem>}
+				</MoreMenu>
+			</Navigation>
+			<div className={classes.scrolled}>
+				<List className={classes.list} >
+					{contacts.map((contact) => {
+						return <ContactsListItem
+							key={contact.id}
+							contact={contact}
+							onCheckboxChange={handlerToggle}
+							checked={checkedItems.indexOf(contact.id) !== -1}
+							isCheckMode={isCheckMode}
+							hideContacts={hideContacts}
+							runCheckMode={() => setIsCheckMode(true)}
+						/>
+					})}
 
-			</List>
-		</div >
+				</List>
+			</div>
+		</>
 	)
 }
 

@@ -5,7 +5,7 @@ import { RootState } from "../store"
 
 const initialState = {
 	contacts: [] as Array<IContact>,
-	currentContact: 0,
+	currentContact: -1,
 	currentContact2: {} as IContact | {},
 	error: null as string | null | unknown
 }
@@ -30,6 +30,13 @@ export const contactsSlice = createSlice({
 					state.error = action.error
 				}
 			})
+			.addCase(deleteContact.rejected, (state, action) => {
+				if (action.payload) {
+					state.error = action.payload
+				} else {
+					state.error = action.error
+				}
+			})
 	}
 })
 
@@ -42,10 +49,22 @@ export const getContacts = createAsyncThunk(
 	'contacts/getContacts',
 	async (payload, { rejectWithValue }) => {
 		const res = await contactsAPI.getContactList()
-		if (res.data && res?.resultCode === 1) {
+		if (res?.status === 200) {
 			return res.data
 		} else {
-			return rejectWithValue(res.message as string | null)
+			return rejectWithValue(res?.statusText)
+		}
+	}
+)
+
+export const deleteContact = createAsyncThunk(
+	'contacts/delete',
+	async (payload: number, { rejectWithValue, dispatch }) => {
+		const res = await contactsAPI.delete(payload)
+		if (res?.status === 200) {
+			dispatch(getContacts())
+		} else {
+			return rejectWithValue(res?.statusText)
 		}
 	}
 )

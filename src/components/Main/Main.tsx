@@ -1,12 +1,12 @@
 import { IconButton, Tooltip, useMediaQuery } from "@mui/material"
 import { useCallback, useState } from "react"
 import { device } from "../../styles/device"
-import ContactCard from "./ContactCard/ContactCard"
 import Contacts from "./Contacts/Contacts"
 import useMainStyles from "./Main.styled"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useSelector } from "../../hooks/redux"
 import { Navigate } from "react-router-dom"
+import CardContainer from "./Card/CardContainer"
 
 export interface IMainProps {
 }
@@ -17,7 +17,6 @@ export type StyleProps = { hidden: boolean }
 
 export default function Main(props: IMainProps) {
 	const isAuth = useSelector(state => state.auth.isAuth)
-	const isContactListEmpty = useSelector(state => state.contacts.contacts.length === 0)
 	const isMobile = !useMediaQuery(device.tabletS)
 	const [hidden, setHidden] = useState(false)
 
@@ -40,17 +39,19 @@ export default function Main(props: IMainProps) {
 	if (!isAuth) return <Navigate to={'/login'} replace={true} />
 	return (
 		<div className={classes.wrapper}>
-			<div className={'container'}>
-				<main className={classes.main}>
-					{isMobile && <div className={classes.button}>
-						<BackButton onClick={() => setHidden(false)} />
-					</div>
-					}
-					<div className={classes.contactsBlock}>
-						<Contacts hideContacts={hideContacts} isMobile={isMobile} />
-					</div>
-					{!isContactListEmpty && <ContactCard isMobile={isMobile} />}
-				</main>
+			<div className={classes.border}>
+				<div className='container'>
+					<main className={classes.main}>
+						{isMobile && <div className={classes.button}>
+							<BackButton onClick={() => setHidden(false)} />
+						</div>
+						}
+						<div className={classes.contactsBlock}>
+							<Contacts hideContacts={hideContacts} isMobile={isMobile} />
+						</div>
+						<CardContainer />
+					</main>
+				</div>
 			</div>
 		</div>
 	)

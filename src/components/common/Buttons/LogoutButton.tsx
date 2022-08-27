@@ -3,7 +3,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 
 const LogoutButton: React.FC<IconButtonProps> = (props) => (
 	<Tooltip title='Logout'>
-		<IconButton onClick={props.onClick} aria-label='logout'>
+		<IconButton {...props} aria-label='logout'>
 			<LogoutIcon />
 		</IconButton>
 	</Tooltip>

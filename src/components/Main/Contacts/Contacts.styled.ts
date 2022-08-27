@@ -2,21 +2,19 @@ import { createUseStyles } from 'react-jss'
 import { device } from '../../../styles/device'
 
 const useContactsStyles = createUseStyles({
-	container: {
-
-	},
-	navigation: {
+	scrolled: {
+		overflow: 'hidden',
+		position: 'relative',
 		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		height: 40
-	},
-	selectedCounter: {
-		display: 'flex',
-		alignItems: 'center',
 	},
 	list: {
-		paddingTop: 10
+		overflow: 'hidden auto',
+		display: 'flex',
+		flexDirection: 'column',
+		flex: '1 1 100%',
+		'&::-webkit-scrollbar': {
+			width: 5
+		}
 	},
 }, { name: 'contacts' })
 
