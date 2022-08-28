@@ -1,11 +1,12 @@
 # Contacts app
 
 Application to store your contacts.\
-Сapabilities:\
-* Add new contact;\
-* Delete one or more contacts;\
-* Edit contact info;\
+Сapabilities:
+* Add new contact;
+* Delete one or more contacts;
+* Edit contact info
 * Live serch by first name and last name.\
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
 Node version v16.13.2
 
