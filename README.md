@@ -5,10 +5,14 @@ Application to store your contacts.\
 * Add new contact;
 * Delete one or more contacts;
 * Edit contact info
-* Live serch by first name and last name.\
+* Live serch by first name and last name.
+
+Adapted for mobile devices
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
 Node version v16.13.2
+
+stack: react, redux-toolkit, typescript, react-hook-form, axios, JSS, mui 
 
 ## Available Scripts
 
