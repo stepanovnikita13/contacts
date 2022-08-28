@@ -1,8 +1,7 @@
 import { TextField } from "@mui/material"
 import { useEffect, useMemo } from "react"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
-import { IContact } from "../../../types/types"
+import { Controller, FieldPath, SubmitHandler, useForm } from "react-hook-form"
+import { IContact, TNewContact } from "../../../types/types"
 import CancelButton from "../../common/Buttons/CancelButton"
 import SuccessButton from "../../common/Buttons/SuccessButton"
 import Navigation from "../../common/Navigation/Navigation"
@@ -10,26 +9,59 @@ import useCardFormStyles from "./ContactForm.styled"
 
 export interface IContactFormProps {
 	contact?: IContact
-	onSubmit?: () => void
+	onSubmit?: (data: TNewContact) => void
 	onClose?: () => void
 }
 
 const ContactForm: React.FC<IContactFormProps> = (props) => {
 	const { contact, onSubmit, onClose } = props
-	const { register, handleSubmit, reset, control } = useForm<IContact>({
+	const newContactDefaultValues: TNewContact = { //Because form includes controlled inputs
+		firstName: '',
+		lastName: '',
+		description: '',
+		phoneNumbers: {
+			common: '',
+			second: '',
+			home: '',
+			work: ''
+		},
+		photo: ''
+	}
+	const defaultValues = contact ?? newContactDefaultValues
+	const { register, handleSubmit, reset, control, getValues, formState: { errors } } = useForm<IContact>({
 		defaultValues: useMemo(() => {
-			return contact
-		}, [contact])
+			return defaultValues
+		}, [defaultValues])
 	})
 
 	const classes = useCardFormStyles()
 
 	useEffect(() => {
-		reset(contact)
+		reset(defaultValues)
+		// eslint-disable-next-line
 	}, [contact])
 
 	const onSubmitForm: SubmitHandler<IContact> = data => {
-		if (onSubmit) onSubmit()
+		if (onSubmit) onSubmit(data)
+	}
+	type TControlledInput = { name: FieldPath<TNewContact>; required?: boolean;[key: string]: any }
+	const ControlledInput: React.FC<TControlledInput> = ({ name, required, ...props }) => {
+		return (
+			<Controller
+				control={control}
+				name={name}
+				render={({ field: { value } }) => (
+					<TextField
+						required={required}
+						{...props}
+						value={value}
+						margin='dense'
+						size='small'
+						{...register(name, { required })}
+					/>
+				)}
+			/>
+		)
 	}
 	return (
 		<form className={classes.form} onSubmit={handleSubmit(onSubmitForm)} >
@@ -37,82 +69,46 @@ const ContactForm: React.FC<IContactFormProps> = (props) => {
 				<SuccessButton onClick={handleSubmit(onSubmitForm)} />
 				{onClose && <CancelButton onClick={onClose} />}
 			</Navigation>
-
-			<Controller
-				control={control}
-				name='firstName'
-				render={({ field: { value } }) => (
-					<TextField
-						error={false}
-						id='firstName'
-						label='First name'
-						margin='dense'
-						size='small'
-						value={value}
-						{...register('firstName')}
-					/>
-				)}
+			<ControlledInput
+				name="firstName"
+				required
+				id='firstName'
+				label='First name'
+				error={!!errors.firstName}
 			/>
-			<Controller
-				control={control}
-				name='lastName'
-				render={({ field: { value } }) => (
-					<TextField
-						error={false}
-						id='lastName'
-						label='Last name'
-						margin='dense'
-						size='small'
-						value={value}
-						{...register('lastName')}
-					/>
-				)}
+			<ControlledInput
+				name="lastName"
+				id='lastName'
+				label='Last name'
 			/>
-			<Controller
-				control={control}
-				name='description'
-				render={({ field: { value } }) => (
-					<TextField
-						error={false}
-						id='description'
-						label='Description'
-						margin='dense'
-						size='small'
-						value={value}
-						{...register('description')}
-					/>
-				)}
+			<ControlledInput
+				name="description"
+				id='description'
+				label='Description'
 			/>
-			<Controller
-				control={control}
-				name='phoneNumbers.common'
-				render={({ field: { value } }) => (
-					<TextField
-						required
-						error={false}
-						id='commonNumber'
-						label='Number'
-						margin='dense'
-						size='small'
-						value={value}
-						{...register('phoneNumbers.common')}
-					/>
-				)}
+			<ControlledInput
+				name="phoneNumbers.common"
+				id='commonNumber'
+				label='Common number'
+				required
+				error={!!errors.phoneNumbers?.common}
 			/>
-			<Controller
-				control={control}
-				name='photo'
-				render={({ field: { value } }) => (
-					<TextField
-						error={false}
-						id='photo'
-						label='Photo URL'
-						margin='dense'
-						size='small'
-						value={value}
-						{...register('photo')}
+			{Object.entries(getValues().phoneNumbers).map((item, index) => {
+				const type = item[0]
+				if (type === 'common') return null
+				return (
+					<ControlledInput
+						key={index}
+						name={(`phoneNumbers.${type}`) as FieldPath<TNewContact>}
+						id={`${type}Number`}
+						label={`${type.charAt(0).toUpperCase() + type.slice(1)} number`}
 					/>
-				)}
+				)
+			})}
+			<ControlledInput
+				name="photo"
+				id='photo'
+				label='Photo URL'
 			/>
 		</form>
 	)

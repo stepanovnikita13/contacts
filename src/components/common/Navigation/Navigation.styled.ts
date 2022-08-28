@@ -6,6 +6,7 @@ const useNavigationStyles = createUseStyles<'navigation', StyleProps>({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: ({ justifyContent = 'normal' }) => justifyContent,
+		flexShrink: 0,
 		height: 'auto',
 		overflow: 'hidden'
 	},

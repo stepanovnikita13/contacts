@@ -2,10 +2,6 @@ import { createUseStyles } from 'react-jss'
 import { device } from '../../styles/device'
 import { StyleProps } from './Main'
 
-function getPaddingTop() {
-	return document.getElementsByTagName('header').item(0)?.offsetHeight
-}
-
 const useMainStyles = createUseStyles({
 	wrapper: {
 		paddingTop: 50,
@@ -32,7 +28,7 @@ const useMainStyles = createUseStyles({
 		right: 0,
 		display: 'flex',
 		flexFlow: 'column nowrap',
-		height: 'calc(100vh - 50px)',
+		height: 'calc(100vh - 80px)',
 		transform: hidden ? 'translateX(-100%)' : 'translateX(0)',
 		transition: 'transform .2s ease',
 		backgroundColor: '#fff',

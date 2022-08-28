@@ -8,7 +8,6 @@ import Navigation from "../../common/Navigation/Navigation"
 import DeleteButton from "../../common/Buttons/DeleteButton"
 import EditButton from "../../common/Buttons/EditButton"
 import DeleteDialog from "../../common/Dialogs/DeleteDialog/DeleteDialog"
-import { useDispatch } from "../../../hooks/redux"
 import { useState } from "react"
 
 export interface ICardProps {
@@ -22,7 +21,6 @@ const Card: React.FC<ICardProps> = props => {
 	const { firstName, lastName, description, phoneNumbers, photo } = contact
 	const fullName = `${firstName} ${lastName}`
 	const [open, setOpen] = useState(false)
-	const dispatch = useDispatch()
 
 	const classes = useCardStyles()
 	const cardClassNames = [
@@ -44,7 +42,7 @@ const Card: React.FC<ICardProps> = props => {
 					open={open}
 					onClose={handlerCloseDialog}
 					handlerDelete={onDelete}
-					title={`Delete ${'fd'} from your contact list?`}
+					title={`Delete ${firstName} from your contact list?`}
 				/>
 			</Navigation>
 			<div className={classes.cardWrapper}>
@@ -71,6 +69,7 @@ const Card: React.FC<ICardProps> = props => {
 					{Object.entries(phoneNumbers).map((item, index) => {
 						const number = item[1]
 						const cathegory = item[0].toUpperCase()
+						if (!number) return null
 						return (
 							<div key={index}>
 								<PhoneIcon sx={{ color: "#fdc60d" }} />

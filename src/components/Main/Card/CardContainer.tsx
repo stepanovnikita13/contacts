@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../../../hooks/redux";
-import { deleteContact } from "../../../redux/slices/contactsSlice";
-import { IContact } from "../../../types/types";
+import { changeContact, deleteContact } from "../../../redux/slices/contactsSlice";
+import { IContact, TNewContact } from "../../../types/types";
 import Card from "./Card";
 import useCardContainerStyles from "./CardContainer.styled";
 import ContactForm from "../ContactForm/ContactForm";
@@ -14,7 +14,6 @@ export type StyleProps = {
 	editMode: boolean
 }
 const CardContainer: React.FC<IContactContainerProps> = (props) => {
-
 	const [editMode, setEditMode] = useState(false)
 	const dispatch = useDispatch()
 
@@ -23,8 +22,12 @@ const CardContainer: React.FC<IContactContainerProps> = (props) => {
 
 	const classes = useCardContainerStyles()
 
-	function handlerSubmit() {
-		//dispatch()
+	useEffect(() => {
+		setEditMode(false)
+	}, [currentId, setEditMode])
+
+	function handlerSubmit(data: TNewContact) {
+		dispatch(changeContact({ data, id: currentId }))
 		setEditMode(false)
 	}
 

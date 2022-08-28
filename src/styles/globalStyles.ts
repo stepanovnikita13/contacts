@@ -26,6 +26,10 @@ const useGlobalStyles = createUseStyles({
 				margin: [0, "auto"],
 				padding: 0
 			},
+		},
+		'.items-center': {
+			display: 'flex',
+			alignItems: 'center'
 		}
 	}
 })
