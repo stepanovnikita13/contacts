@@ -186,19 +186,6 @@
       },
       "photo": "",
       "id": 18
-    },
-    {
-      "firstName": "dfdf",
-      "lastName": "",
-      "description": "",
-      "phoneNumbers": {
-        "common": "2121",
-        "second": "",
-        "home": "",
-        "work": ""
-      },
-      "photo": "",
-      "id": 19
     }
   ]
 }
